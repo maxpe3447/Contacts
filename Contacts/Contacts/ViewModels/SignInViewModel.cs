@@ -40,13 +40,13 @@ namespace Contacts.ViewModels
 
         public async void SignInReset()
         {
-            //bool result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Invalid login or password!", "Alert", "Ok", " ");
+            bool result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Invalid login or password!", "Alert", "Ok", " ");
 
-            //if (result)
-            //{
+            if (result)
+            {
                 Login = string.Empty;
                 UserPassword = string.Empty;
-            //}
+            }
         }
     }
 }
