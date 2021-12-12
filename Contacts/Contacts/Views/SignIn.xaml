@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="Contacts.Views.SignIn">
+    <StackLayout>
+
+        <Entry x:Name="userLogin" Margin="20, 100, 20, 0" Placeholder="Login" Text="{Binding Login}"/>
+        <Entry x:Name="userPassword" Margin="20, 10, 20, 0" Placeholder="Password" Text="{Binding UserPassword}" IsPassword="True" />
+
+
+        <Button x:Name ="signIn"  Text ="SIGN IN" Margin="20, 300, 20, 0"  HeightRequest="70" FontSize="Medium" BackgroundColor="DarkOrange" Command="{Binding SignInClick}"/>
+        <Label x:Name="signUp" Text="SIGN UP" Margin="20, 5, 20, 0" HorizontalTextAlignment="Center" FontSize="Medium" TextColor="Blue" TextDecorations="Underline" >
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="SIGN UP">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateToCommand}"/>
+                        </Span.GestureRecognizers>
+                    </Span>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+    </StackLayout>
+</ContentPage>
