@@ -12,7 +12,7 @@ namespace Contacts.ViewModels
     public class SignInViewModel : ViewModelBase
     {
         public ICommand NavigateToCommand { get; }
-        public ICommand SignInClick { get; private set; }
+        public ICommand SignInClick { get; }
         public SignInViewModel(INavigationService navigationService)
             :base (navigationService)
         {
@@ -36,7 +36,7 @@ namespace Contacts.ViewModels
             set { SetProperty(ref userPassword, value); }
         }
 
-        public async void NavigateToSugnUpPage() => await NavigationService.NavigateAsync("/SignUpView", useModalNavigation: true);
+        public async void NavigateToSugnUpPage() => await NavigationService.NavigateAsync("SignUp");
 
         public async void SignInReset()
         {

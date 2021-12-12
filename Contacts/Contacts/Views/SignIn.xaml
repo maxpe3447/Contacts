@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Contacts.Views.SignIn">
+             x:Class="Contacts.Views.SignIn"
+             Title="{Binding Title}">
     <StackLayout>
 
         <Entry x:Name="userLogin" Margin="20, 100, 20, 0" Placeholder="Login" Text="{Binding Login}"/>

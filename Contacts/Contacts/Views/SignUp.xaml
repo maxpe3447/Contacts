@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="Contacts.Views.SignUp"
+             Title="{Binding Title}">
+
+    <StackLayout>
+        <Entry x:Name="userLogin" Margin="40, 200, 40, 5" Placeholder="Login" Text="{Binding Login}" FontSize="Medium"/>
+        <Entry x:Name="userPassword" Margin="40, 5, 40, 5" Placeholder="Password" Text ="{Binding UserPassword}" FontSize="Medium" IsPassword = "True"/>
+        <Entry x:Name="confirmUserPassword" Margin="40, 5, 40, 5" Placeholder="Confirm Password" Text="{Binding ConfirmUserPassword}" FontSize="Medium" IsPassword = "True"/>
+
+        <Button x:Name="signUp" Margin="40, 150, 40, 0" Text="SIGN UP" HeightRequest="70" FontSize="Medium" IsEnabled="{Binding SignUpIsEnable}" Command="{Binding CreateAccount}" />
+    </StackLayout>
+
+</ContentPage>
