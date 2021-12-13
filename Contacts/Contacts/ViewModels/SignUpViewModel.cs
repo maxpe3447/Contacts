@@ -1,5 +1,8 @@
-﻿using Prism.Commands;
+﻿using Acr.UserDialogs;
+using Contacts.Model;
+using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +13,15 @@ namespace Contacts.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
-        ICommand CreateAccountCommand { get; }
+        public ICommand CreateAccountCommand { get; }
+        Services.Sign.SignUp signUp;
         public SignUpViewModel(Prism.Navigation.INavigationService navigationService)
             :base(navigationService)
         {
             Title = "Users SignUp";
             CreateAccountCommand = new Command(AccountCreate);
+
+            signUp = new Services.Sign.SignUp();
         }
 
         private string login;
@@ -46,33 +52,51 @@ namespace Contacts.ViewModels
         }
         public void AccountCreate()
         {
+            if (!Valid())
+            {
+                return;
+            }
+            var user = new UserModel { Login = Login, Password = UserPassword };
+            if (!signUp.IsExist(user))
+            {
+                user.Id = signUp.InsertUser(user).Result;
 
-            //TODO: create account
+                NavigationParameters keyValues = new NavigationParameters();
+
+                keyValues.Add("Login", user.Login);
+                keyValues.Add("Password", user.Password);
+                keyValues.Add("Id", user.Id);
+
+
+                NavigationService.GoBackAsync(keyValues);
+                return;
+            }
+            UserDialogs.Instance.Alert("This login is exist!");
 
         }
         public bool Valid()
         {
             if (Login.Length < 4 || Login.Length > 16)
             {
-                //UserDialogs.Instance.Alert("Your login must be more than 4 characters and less than 16 characters!", "Invalid login");
+                UserDialogs.Instance.Alert("Your login must be more than 4 characters and less than 16 characters!", "Invalid login");
                 return false;
             }
             if (char.IsDigit(Login[0]))
             {
-                //UserDialogs.Instance.Alert("login must not start with a number!", "Invalid login");
+                UserDialogs.Instance.Alert("Login must not start with a number!", "Invalid login");
                 return false;
             }
             if (userPassword.Length < 8 || userPassword.Length > 16)
             {
-                //UserDialogs.Instance.Alert("Your password must be more than 8 characters and less than 16 characters!", "Invalid password");
+                UserDialogs.Instance.Alert("Your password must be more than 8 characters and less than 16 characters!", "Invalid password");
                 return false;
             }
             if (userPassword != confirmUserPassword)
             {
-                //UserDialogs.Instance.Alert("Your password mismatch!", "Invalid password");
+                UserDialogs.Instance.Alert("Your password mismatch!", "Invalid password");
                 return false;
             }
-            //TODO: is_exist in db
+           
             return true;
         }
         private void SignUpButtonUnlock() =>

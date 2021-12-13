@@ -11,7 +11,7 @@
         <Entry x:Name="userPassword" Margin="40, 5, 40, 5" Placeholder="Password" Text ="{Binding UserPassword}" FontSize="Medium" IsPassword = "True"/>
         <Entry x:Name="confirmUserPassword" Margin="40, 5, 40, 5" Placeholder="Confirm Password" Text="{Binding ConfirmUserPassword}" FontSize="Medium" IsPassword = "True"/>
 
-        <Button x:Name="signUp" Margin="40, 150, 40, 0" Text="SIGN UP" HeightRequest="70" FontSize="Medium" IsEnabled="{Binding SignUpIsEnable}" Command="{Binding CreateAccount}" />
+        <Button x:Name="signUp" Margin="40, 150, 40, 0" Text="SIGN UP" HeightRequest="70" FontSize="Medium" IsEnabled="{Binding SignUpIsEnable}" Command="{Binding CreateAccountCommand}" />
     </StackLayout>
 
 </ContentPage>
