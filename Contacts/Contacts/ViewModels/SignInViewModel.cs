@@ -49,12 +49,20 @@ namespace Contacts.ViewModels
             }
         }
 
+        private Model.UserModel userModel;
         public override void OnNavigatedTo(INavigationParameters parameters) 
         {
             if (parameters.ContainsKey("Login"))
             {
                 Login = parameters.GetValue<string>("Login");
                 UserPassword = parameters.GetValue<string>("Password");
+
+                userModel = new Model.UserModel
+                {
+                    Id = parameters.GetValue<int>("Id"),
+                    Login = parameters.GetValue<string>("Login"),
+                    Password = parameters.GetValue<string>("Password")
+                };
             }
             
         }
