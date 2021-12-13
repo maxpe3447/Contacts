@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="Contacts.Views.MainList"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems >
+        <ToolbarItem Text="Log out" Command="{Binding LogOutCommand}"/>
+        <ToolbarItem Text="Setting"/>
+    </ContentPage.ToolbarItems>
+    <AbsoluteLayout>
+        <StackLayout>
+            <ListView ItemsSource="{Binding ProfileList}"
+                  HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="200"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="1">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="20"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Label Grid.Row="0" 
+                                           Grid.Column="1"
+                                           Text="{Binding NickName}"/>
+
+                                        <Label Grid.Row="1" 
+                                           Grid.Column="1"
+                                           Text="{Binding Name}"/>
+
+                                        <Label Grid.Row="2" 
+                                           Grid.Column="1"
+                                           Text="{Binding Date}"/>
+
+                                    </Grid>
+                                    <Image Grid.Column="0"
+                                           Source="{Binding ProfileImage}"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <Button Text="+"
+                FontSize="40"
+                TextColor="White"
+                BackgroundColor="Blue"
+                AbsoluteLayout.LayoutBounds="1, 1"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                HeightRequest="70"
+                WidthRequest="70"
+                CornerRadius="35"
+                Margin="0, 0, 30, 100"/>
+    </AbsoluteLayout>
+</ContentPage>

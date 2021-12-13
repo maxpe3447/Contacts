@@ -20,7 +20,7 @@ namespace Contacts.Services.Repository
                 var database = new SQLiteAsyncConnection(path);
 
                 database.CreateTableAsync<UserModel>();
-                //database.CreateTableAsync<ProfileModel>();
+                database.CreateTableAsync<ProfileModel>();
                 return database;
             });
         }
@@ -44,15 +44,15 @@ namespace Contacts.Services.Repository
             return database.Value.UpdateAsync(entity);
         }
 
-        //public async Task<T> IsExist<T>(T entity) where T : IEntityBase, new()
-        //{
-        //    return await database.Value.FindAsync<T>(entity);
-        //}
         public async Task<bool> IsExist(UserModel entity)
         {
-            //var table = database.Value.Table<UserModel>().Where(entity);
             var table = database.Value.FindAsync<UserModel>(entity);
             return await table != null;
+        }
+
+        public async void Delete<T>() where T : IEntityBase, new()
+        {
+            await database.Value.DeleteAllAsync<T>();
         }
     }
 }

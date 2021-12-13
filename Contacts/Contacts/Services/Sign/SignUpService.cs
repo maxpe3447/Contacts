@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Contacts.Services.Sign
 {
-    class SignUp
+    class SignUpService : ISign
     {
         private Repository.Repository repository;
-        public SignUp()
+        public SignUpService()
         {
             repository = new Repository.Repository();
         }
@@ -25,6 +25,11 @@ namespace Contacts.Services.Sign
         {
             var lst = repository.GetAllAsync<UserModel>().Result;
             return lst;
+        }
+        /////////Temp
+        public void Delete()
+        {
+            repository.Delete<UserModel>();
         }
     }
 }

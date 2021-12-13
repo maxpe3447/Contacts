@@ -14,14 +14,14 @@ namespace Contacts.ViewModels
     public class SignUpViewModel : ViewModelBase
     {
         public ICommand CreateAccountCommand { get; }
-        Services.Sign.SignUp signUp;
+        Services.Sign.SignUpService signUp;
         public SignUpViewModel(Prism.Navigation.INavigationService navigationService)
             :base(navigationService)
         {
             Title = "Users SignUp";
             CreateAccountCommand = new Command(AccountCreate);
 
-            signUp = new Services.Sign.SignUp();
+            signUp = new Services.Sign.SignUpService();
         }
 
         private string login;

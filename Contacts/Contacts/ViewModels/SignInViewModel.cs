@@ -1,4 +1,6 @@
-﻿using Prism.Commands;
+﻿using Contacts.Services.Repository;
+using Contacts.Services.Sign;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
@@ -14,7 +16,7 @@ namespace Contacts.ViewModels
         public ICommand NavigateToCommand { get; }
         public ICommand SignInClick { get; }
         public SignInViewModel(INavigationService navigationService)
-            :base (navigationService)
+            : base(navigationService)
         {
             Title = "Users SignIn";
 
@@ -40,6 +42,13 @@ namespace Contacts.ViewModels
 
         public async void SignInReset()
         {
+            SignInService signIn = new SignInService();
+            if(signIn.IsExist(new Model.UserModel {Login = Login, Password = userPassword }))
+            {
+                await NavigationService.NavigateAsync("MainList");
+                return;
+            }
+
             bool result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Invalid login or password!", "Alert", "Ok", " ");
 
             if (result)
