@@ -16,12 +16,16 @@ namespace Contacts.Services.Sign
         }
         public bool IsExist(UserModel userModel)
         {
-            return (GetUsers()?.Where(x => x.Login == userModel.Login && x.Password == userModel.Password).FirstOrDefault()?.Id ?? 0) != 0;
+            return (GetUsers()?.Where(x => x.Login == userModel.Login && x.Password == userModel.Password).FirstOrDefault()?.Id ?? -1) != -1;
         }
         private List<UserModel> GetUsers()
         {
             var lst = repository.GetAllAsync<UserModel>().Result;
             return lst;
+        }
+        public  int GetId(UserModel userModel)
+        {
+            return GetUsers()?.Where(x => x.Login == userModel.Login && x.Password == userModel.Password).FirstOrDefault()?.Id ?? -1;
         }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Contacts.Services.Profile
 {
@@ -20,9 +21,9 @@ namespace Contacts.Services.Profile
             throw new NotImplementedException();
         }
 
-        public List<ProfileModel> GetAll()
+        public List<ProfileModel> GetAll(int AuthorId)
         {
-            return  repository.GetAllAsync<ProfileModel>().Result;
+            return  repository.GetAllAsync<ProfileModel>().Result.Where(x=>x.AuthorId == AuthorId).ToList();
         }
 
         public void InsertProfile(ProfileModel profileModel)

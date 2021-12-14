@@ -24,25 +24,9 @@ namespace Contacts.ViewModels
             Title = "Main List";
             LogOutCommand = new Command(LogOut);
             AddProfileCommand = new Command(NavigateToAdd);
-            //ProfileList = new ObservableCollection<ProfileModel>
-            //{
-            //    new ProfileModel
-            //    {
-            //        NickName = "Nik name1",
-            //        Name = "Name1",
-            //        Date = DateTime.Now.ToString(),
-            //        //ProfileImage = new Image().
-            //    },
-            //    new ProfileModel
-            //    {
-            //        NickName = "Nik name2",
-            //        Name = "Name2",
-            //        Date = DateTime.Now.ToString()
-            //    }
-            //};
-
             ProfileService = new ProfileService();
-            ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll());
+
+            AuthorId = -1;
         }
 
         private ObservableCollection<ProfileModel> profileList;
@@ -56,6 +40,14 @@ namespace Contacts.ViewModels
         {
             await NavigationService.GoBackAsync();
         }
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            AuthorId = parameters.ContainsKey("AuthorId") ? parameters.GetValue<int>("AuthorId") : AuthorId;
+
+            ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll(AuthorId));
+        }
+
+        private int AuthorId { get; set; }
 
         private async void NavigateToAdd()
         {
@@ -64,7 +56,7 @@ namespace Contacts.ViewModels
             keyValues.Add("Title", "AddProfile");
             keyValues.Add("ToolBarButton", "A");
             keyValues.Add("ForAdd", "A");
-            keyValues.Add("AuthorId", 1); //TODO ID
+            keyValues.Add("AuthorId", AuthorId); //TODO ID
 
             await NavigationService.NavigateAsync("AddEditProfile", keyValues);
         }

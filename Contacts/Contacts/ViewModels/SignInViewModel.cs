@@ -43,11 +43,14 @@ namespace Contacts.ViewModels
         public async void SignInReset()
         {
             SignInService signIn = new SignInService();
-            if(signIn.IsExist(new Model.UserModel {Login = Login, Password = userPassword }))
+            var userModel = new Model.UserModel { Login = Login, Password = userPassword };
+            if (signIn.IsExist(userModel))
             {
+                userModel.Id = signIn.GetId(userModel);
+
                 NavigationParameters keyValues = new NavigationParameters();
 
-                keyValues.Add("AuthorId", userModel?.Id);
+                keyValues.Add("AuthorId", userModel.Id);
 
                 await NavigationService.NavigateAsync("MainList", keyValues);
                 return;
@@ -62,7 +65,7 @@ namespace Contacts.ViewModels
             }
         }
 
-        private Model.UserModel userModel;
+        //private Model.UserModel userModel;
         public override void OnNavigatedTo(INavigationParameters parameters) 
         {
             if (parameters.ContainsKey("Login"))
@@ -70,12 +73,7 @@ namespace Contacts.ViewModels
                 Login = parameters.GetValue<string>("Login");
                 UserPassword = parameters.GetValue<string>("Password");
 
-                userModel = new Model.UserModel
-                {
-                    Id = parameters.GetValue<int>("Id"),
-                    Login = parameters.GetValue<string>("Login"),
-                    Password = parameters.GetValue<string>("Password")
-                };
+                
             }
             
         }
