@@ -1,5 +1,4 @@
 ﻿using Contacts.Model;
-using Contacts.Services.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,25 +9,36 @@ namespace Contacts.Services.Profile
 {
     class ProfileService : IProfileService
     {
-        IRepository repository;
+        private Repository.Repository repository;
         public ProfileService()
         {
             this.repository = new Repository.Repository();
         }
 
-        public void DeleteProfile(ProfileModel profileModel)
+        public async void DeleteProfile(ProfileModel profile)
         {
-            throw new NotImplementedException();
+            await repository.DeleteAsync(profile);
         }
 
         public List<ProfileModel> GetAll(int AuthorId)
         {
-            return  repository.GetAllAsync<ProfileModel>().Result.Where(x=>x.AuthorId == AuthorId).ToList();
+            List< ProfileModel> lst =  repository.GetAllAsync<ProfileModel>().Result;
+            return lst.Where(x => x.AuthorId == AuthorId).ToList();
         }
 
-        public void InsertProfile(ProfileModel profileModel)
+        public int InsertProfile(ProfileModel profile)
         {
-            repository.InsertAsync<ProfileModel>(profileModel);
+            return repository.InsertAsync<ProfileModel>(profile).Result;
+        }
+
+        public  Task<int> UpdateProfile(ProfileModel profile)
+        {
+            return repository.UpdateAsync<ProfileModel>(profile);
+        }
+        /////////Temp
+        public void Delete()
+        {
+            repository.Delete<ProfileModel>();
         }
     }
 }

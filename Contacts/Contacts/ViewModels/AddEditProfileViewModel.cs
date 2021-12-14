@@ -58,28 +58,45 @@ namespace Contacts.ViewModels
         ProfileModel profileModel;
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            profileModel = new ProfileModel
-            {
-                AuthorId = parameters.GetValue<int>("AuthorId")
-            };
             Title = parameters.ContainsKey("Title") ? parameters.GetValue<string>("Title") : "Profile";
             ToolBarButton = parameters.ContainsKey("ToolBarButton") ? parameters.GetValue<string>("ToolBarButton") : "NaN";
-            ForAdd = parameters.ContainsKey("ForAdd");
+            if (!(ForAdd = parameters.ContainsKey("ForAdd")))
+            {
+                profileModel = parameters.GetValue<ProfileModel>("ProfileModel");
+
+                Name = profileModel.Name;
+                NickName = profileModel.NickName;
+                Description = profileModel.Description;
+
+            }
+            else
+                profileModel = new ProfileModel
+                {
+                    AuthorId = parameters.GetValue<int>("AuthorId")
+                };
         }
 
-        private void AddUpdate()
+        private async void AddUpdate()
         {
+            ProfileService profileService = new ProfileService();
+
             if (ForAdd)
             {
-
                 profileModel.Name = Name;
                 profileModel.NickName = NickName;
                 profileModel.Description = Description;
                 profileModel.Date = DateTime.Now.ToString();
-                    //TODO IMAGE
-                
-                ProfileService profileService = new ProfileService();
+                //TODO IMAGE
+
                 profileService.InsertProfile(profileModel);
+            }
+            else
+            {
+                profileModel.Name = Name;
+                profileModel.NickName = NickName;
+                profileModel.Description = Description;
+                //TODO Image
+               await profileService.UpdateProfile(profileModel);
             }
         }
     }

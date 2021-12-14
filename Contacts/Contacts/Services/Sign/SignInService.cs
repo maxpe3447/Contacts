@@ -23,7 +23,7 @@ namespace Contacts.Services.Sign
             var lst = repository.GetAllAsync<UserModel>().Result;
             return lst;
         }
-        public  int GetId(UserModel userModel)
+        public int GetId(UserModel userModel)
         {
             return GetUsers()?.Where(x => x.Login == userModel.Login && x.Password == userModel.Password).FirstOrDefault()?.Id ?? -1;
         }

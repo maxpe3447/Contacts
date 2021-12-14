@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -38,7 +39,11 @@ namespace Contacts.ViewModels
             set { SetProperty(ref userPassword, value); }
         }
 
-        public async void NavigateToSugnUpPage() => await NavigationService.NavigateAsync("SignUp");
+        public async void NavigateToSugnUpPage()
+        {
+            //File.Delete(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "contactbook.db3"));
+            await NavigationService.NavigateAsync("SignUp");
+        }
 
         public async void SignInReset()
         {

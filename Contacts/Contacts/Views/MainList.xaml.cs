@@ -8,7 +8,6 @@ namespace Contacts.Views
         public MainList()
         {
             InitializeComponent();
-            //this.BindingContext = new MainListViewModel(null);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Contacts.Services.Profile
     public interface IProfileService
     {
         List<ProfileModel> GetAll(int AuthorId);
-        void InsertProfile(ProfileModel profileModel);
+        int InsertProfile(ProfileModel profileModel);
         void DeleteProfile(ProfileModel profileModel);
     }
 }

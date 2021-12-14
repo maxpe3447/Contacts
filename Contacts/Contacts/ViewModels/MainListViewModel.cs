@@ -67,6 +67,7 @@ namespace Contacts.ViewModels
 
         private async void NavigateToAdd()
         {
+            
             NavigationParameters keyValues = new NavigationParameters();
 
             keyValues.Add("Title", "AddProfile");
@@ -89,11 +90,14 @@ namespace Contacts.ViewModels
             keyValues.Add("ForEdd", "E");
             keyValues.Add("AuthorId", AuthorId);
             keyValues.Add("ProfileModel", currentProfile);
+
             await NavigationService.NavigateAsync("AddEditProfile", keyValues);
         }
-        private async void DeleteProfile(object profileObj)
+        private void DeleteProfile(object profileObj)
         {
-            
+            new ProfileService().DeleteProfile(profileObj as ProfileModel);
+
+            ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll(AuthorId));
         }
         #endregion
         private int AuthorId { get; set; }
