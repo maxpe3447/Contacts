@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Contacts.ViewModels;
+using Xamarin.Forms;
 
 namespace Contacts.Views
 {
@@ -7,6 +8,7 @@ namespace Contacts.Views
         public MainList()
         {
             InitializeComponent();
+            //this.BindingContext = new MainListViewModel(null);
         }
     }
 }

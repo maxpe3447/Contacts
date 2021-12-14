@@ -65,15 +65,12 @@ namespace Contacts.ViewModels
             }
         }
 
-        //private Model.UserModel userModel;
         public override void OnNavigatedTo(INavigationParameters parameters) 
         {
             if (parameters.ContainsKey("Login"))
             {
                 Login = parameters.GetValue<string>("Login");
                 UserPassword = parameters.GetValue<string>("Password");
-
-                
             }
             
         }

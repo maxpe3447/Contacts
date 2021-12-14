@@ -4,20 +4,33 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Contacts.Views.MainList"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             x:Name="mainListPage">
     
     <ContentPage.ToolbarItems >
-        <ToolbarItem Text="Log out" Command="{Binding LogOutCommand}"/>
+        <ToolbarItem Text="Log out" 
+                     Command="{Binding LogOutCommand}"/>
         <ToolbarItem Text="Setting"/>
     </ContentPage.ToolbarItems>
     
     <AbsoluteLayout>
         <StackLayout>
             <ListView ItemsSource="{Binding ProfileList}"
-                  HasUnevenRows="True">
+                      HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="EDIT"
+                                          Command="{ Binding Path=BindingContext.EditProfileCommand, Source={x:Reference mainListPage}}"
+                                          CommandParameter="{Binding .}"/>
+                                <MenuItem Text="DELETE"
+                                          Command="{Binding Path=BindingContext.DeleteProfileCommand, Source={x:Reference mainListPage}}"
+                                          CommandParameter="{Binding .}"
+                                          IsDestructive="True"/>
+                            </ViewCell.ContextActions>
+                            
                             <ViewCell.View>
                                 <Grid>
 

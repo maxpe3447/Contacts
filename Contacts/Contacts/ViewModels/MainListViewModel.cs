@@ -1,4 +1,5 @@
-﻿using Contacts.Model;
+﻿using Acr.UserDialogs;
+using Contacts.Model;
 using Contacts.Services.Profile;
 using Contacts.Services.Repository;
 using Prism.Commands;
@@ -15,17 +16,19 @@ namespace Contacts.ViewModels
 {
     public class MainListViewModel : ViewModelBase
     {
-        public ICommand LogOutCommand { get; }
-        public ICommand AddProfileCommand { get; }
         public IProfileService ProfileService {get;}
         public MainListViewModel(INavigationService navigationService)
             : base(navigationService)
         {
             Title = "Main List";
+
             LogOutCommand = new Command(LogOut);
             AddProfileCommand = new Command(NavigateToAdd);
-            ProfileService = new ProfileService();
+            EditProfileCommand = new Command(NavigateToEdit);
+            DeleteProfileCommand = new Command(DeleteProfile);
 
+            ProfileService = new ProfileService();
+ 
             AuthorId = -1;
         }
 
@@ -36,18 +39,31 @@ namespace Contacts.ViewModels
             set { SetProperty(ref profileList, value); }
         }
 
-        private async void LogOut()
+        private object deleteParam;
+        public object DeleteParam
         {
-            await NavigationService.GoBackAsync();
+            get { return deleteParam; }
+            set { SetProperty(ref deleteParam, value); }
         }
+        #region -- Override -- 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             AuthorId = parameters.ContainsKey("AuthorId") ? parameters.GetValue<int>("AuthorId") : AuthorId;
 
             ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll(AuthorId));
         }
+        #endregion
 
-        private int AuthorId { get; set; }
+        #region -- Command --
+
+        public ICommand LogOutCommand { get; }
+        public ICommand AddProfileCommand { get; }
+        public ICommand EditProfileCommand { get; }
+        public ICommand DeleteProfileCommand { get; }
+        private async void LogOut()
+        {
+            await NavigationService.GoBackAsync();
+        }
 
         private async void NavigateToAdd()
         {
@@ -56,9 +72,30 @@ namespace Contacts.ViewModels
             keyValues.Add("Title", "AddProfile");
             keyValues.Add("ToolBarButton", "A");
             keyValues.Add("ForAdd", "A");
-            keyValues.Add("AuthorId", AuthorId); //TODO ID
+            keyValues.Add("AuthorId", AuthorId);
 
             await NavigationService.NavigateAsync("AddEditProfile", keyValues);
         }
+
+        private async void NavigateToEdit(object profileObj)
+        {
+
+            var currentProfile =profileObj as ProfileModel;
+
+            NavigationParameters keyValues = new NavigationParameters();
+
+            keyValues.Add("Title", "EditProfile");
+            keyValues.Add("ToolBarButton", "E");
+            keyValues.Add("ForEdd", "E");
+            keyValues.Add("AuthorId", AuthorId);
+            keyValues.Add("ProfileModel", currentProfile);
+            await NavigationService.NavigateAsync("AddEditProfile", keyValues);
+        }
+        private async void DeleteProfile(object profileObj)
+        {
+            
+        }
+        #endregion
+        private int AuthorId { get; set; }
     }
 }
