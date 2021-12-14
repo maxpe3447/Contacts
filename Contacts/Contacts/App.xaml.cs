@@ -32,6 +32,7 @@ namespace Contacts
             containerRegistry.RegisterForNavigation<SignIn, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUp, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<MainList, MainListViewModel>();
+            containerRegistry.RegisterForNavigation<AddEditProfile, AddEditProfileViewModel>();
         }
     }
 }

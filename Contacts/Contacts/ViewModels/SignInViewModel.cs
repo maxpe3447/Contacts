@@ -45,7 +45,11 @@ namespace Contacts.ViewModels
             SignInService signIn = new SignInService();
             if(signIn.IsExist(new Model.UserModel {Login = Login, Password = userPassword }))
             {
-                await NavigationService.NavigateAsync("MainList");
+                NavigationParameters keyValues = new NavigationParameters();
+
+                keyValues.Add("AuthorId", userModel?.Id);
+
+                await NavigationService.NavigateAsync("MainList", keyValues);
                 return;
             }
 

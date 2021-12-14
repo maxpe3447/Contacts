@@ -5,10 +5,12 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Contacts.Views.MainList"
              Title="{Binding Title}">
+    
     <ContentPage.ToolbarItems >
         <ToolbarItem Text="Log out" Command="{Binding LogOutCommand}"/>
         <ToolbarItem Text="Setting"/>
     </ContentPage.ToolbarItems>
+    
     <AbsoluteLayout>
         <StackLayout>
             <ListView ItemsSource="{Binding ProfileList}"
@@ -54,8 +56,10 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
+        
         <Button Text="+"
                 FontSize="40"
+                Command="{Binding AddProfileCommand}"
                 TextColor="White"
                 BackgroundColor="Blue"
                 AbsoluteLayout.LayoutBounds="1, 1"
