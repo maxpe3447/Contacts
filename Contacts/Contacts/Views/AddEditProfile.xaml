@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:behaviors="clr-namespace:Contacts.Services.Behavior;assembly=Contacts"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Contacts.Views.AddEditProfile"
              Title="{Binding Title}">
@@ -29,7 +30,10 @@
                 Text="{Binding Description}"
                 BackgroundColor="LightGray"
                 Margin="10, 20, 10, 10"
-                HeightRequest="270"
-                />
+                HeightRequest="270">
+            <Editor.Behaviors>
+                <behaviors:EditorLengthValidatorBehavior MaxLength="150"/>
+            </Editor.Behaviors>
+        </Editor>
     </StackLayout>
 </ContentPage>

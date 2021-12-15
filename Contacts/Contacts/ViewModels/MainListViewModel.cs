@@ -53,7 +53,7 @@ namespace Contacts.ViewModels
             foreach (var profile in lst)
             {
                 if (profile.Image == null)
-                    profile.ProfileImage = ImageSource.FromResource("Contacts.human.png");
+                    profile.ProfileImage = ImageSource.FromFile("human.png");
                 else
                 {
                     var stream = ImageService.BytesToStream(profile.Image);

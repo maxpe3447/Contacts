@@ -84,7 +84,11 @@ namespace Contacts.ViewModels
                 NickName = profileModel.NickName;
                 Description = profileModel.Description;
 
-                Photo = profileModel.ProfileImage;
+                if (profileModel.Image != null)
+                {
+                    var stream = ImageService.BytesToStream(profileModel.Image);
+                    Photo = profileModel.ProfileImage = ImageSource.FromStream(() => stream);
+                }
             }
             else
             {
