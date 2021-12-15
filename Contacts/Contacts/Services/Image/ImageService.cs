@@ -2,7 +2,7 @@
 
 namespace Contacts.Services.Image
 {
-    static class ImageService
+    public static class ImageService
     {
         static public Stream BytesToStream(byte[] bytes)
         {

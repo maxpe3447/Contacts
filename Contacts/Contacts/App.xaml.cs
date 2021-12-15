@@ -33,6 +33,7 @@ namespace Contacts
             containerRegistry.RegisterForNavigation<SignUp, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<MainList, MainListViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfile, AddEditProfileViewModel>();
+            containerRegistry.RegisterForNavigation<ModalImage, ModalImageViewModel>();
         }
     }
 }

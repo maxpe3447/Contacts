@@ -16,7 +16,7 @@
         <ImageButton HeightRequest="250"
                      Source="{Binding Photo}"
                      Command="{Binding ImageSetCommand}"
-                     BackgroundColor="#fafafa"/>
+                     BackgroundColor="Transparent"/>
         
         <Entry Placeholder="NickName"
                Text="{Binding NickName}"

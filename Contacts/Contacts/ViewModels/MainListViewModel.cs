@@ -47,6 +47,21 @@ namespace Contacts.ViewModels
 
         }
 
+        private object selectedProfile;
+        public object SelectedProfile
+        {
+            get { return selectedProfile; }
+            set
+            {
+                SetProperty(ref selectedProfile, value);
+
+                NavigationParameters keyValues = new NavigationParameters();
+                keyValues.Add("byteImage", (SelectedProfile as ProfileModel).Image);
+                NavigationService.NavigateAsync("ModalImage", parameters: keyValues, useModalNavigation: true);
+            }
+
+        }
+
         private void AddNewCollection()
         {
             var lst = ProfileService.GetAll(AuthorId);

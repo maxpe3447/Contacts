@@ -16,7 +16,9 @@
     <AbsoluteLayout>
         <StackLayout>
             <ListView ItemsSource="{Binding ProfileList}"
-                      HasUnevenRows="True">
+                      HasUnevenRows="True"
+                      SelectedItem="{Binding SelectedProfile, Mode=TwoWay}">
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
