@@ -12,7 +12,10 @@ namespace Contacts.Model
         public int Id { get; set; }
 
         public int AuthorId { get; set; }
-        public byte[] ProfileImage { get; set; }
+        public byte[] Image { get; set; }
+
+        [Ignore]
+        public ImageSource ProfileImage { get; set; }
         public string NickName { get; set; }
         public string Name{ get; set; }
         public string Date { get; set; }

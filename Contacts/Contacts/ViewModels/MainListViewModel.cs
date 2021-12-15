@@ -1,7 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Contacts.Model;
+using Contacts.Services.Image;
 using Contacts.Services.Profile;
-using Contacts.Services.Repository;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -44,15 +44,39 @@ namespace Contacts.ViewModels
         {
             get { return deleteParam; }
             set { SetProperty(ref deleteParam, value); }
+
         }
+
+        private void AddNewCollection()
+        {
+            var lst = ProfileService.GetAll(AuthorId);
+            foreach (var profile in lst)
+            {
+                if (profile.Image == null)
+                    profile.ProfileImage = ImageSource.FromResource("Contacts.human.png");
+                else
+                {
+                    var stream = ImageService.BytesToStream(profile.Image);
+
+                    profile.ProfileImage = ImageSource.FromStream(()=>stream);
+
+                }
+            }
+
+            ProfileList = new ObservableCollection<ProfileModel>(lst);
+        }
+
         #region -- Override -- 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             AuthorId = parameters.ContainsKey("AuthorId") ? parameters.GetValue<int>("AuthorId") : AuthorId;
 
-            ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll(AuthorId));
+            AddNewCollection();
         }
         #endregion
+
+
+
 
         #region -- Command --
 
@@ -93,11 +117,22 @@ namespace Contacts.ViewModels
 
             await NavigationService.NavigateAsync("AddEditProfile", keyValues);
         }
-        private void DeleteProfile(object profileObj)
+        private async void DeleteProfile(object profileObj)
         {
-            new ProfileService().DeleteProfile(profileObj as ProfileModel);
+            var confirmConfig = new ConfirmConfig()
+            {
+                Message = "Do you want to delete this profile?",
+                OkText = "Yes",
+                CancelText = "Cancel"
+            };
 
-            ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll(AuthorId));
+            var confirm = await UserDialogs.Instance.ConfirmAsync(confirmConfig);
+            if (confirm)
+            {
+                new ProfileService().DeleteProfile(profileObj as ProfileModel);
+
+                AddNewCollection();
+            }
         }
         #endregion
         private int AuthorId { get; set; }

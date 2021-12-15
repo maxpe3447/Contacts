@@ -10,10 +10,12 @@
         <ToolbarItem Text="{Binding ToolBarButton}"
                      Command="{Binding AddOrUpdate}"/>
     </ContentPage.ToolbarItems>
-    
+
     <StackLayout>
-        <Image HeightRequest="250"
-               Source="human.png"/>
+        <ImageButton HeightRequest="250"
+                     Source="{Binding Photo}"
+                     Command="{Binding ImageSetCommand}"
+                     BackgroundColor="#fafafa"/>
         
         <Entry Placeholder="NickName"
                Text="{Binding NickName}"
@@ -27,6 +29,7 @@
                 Text="{Binding Description}"
                 BackgroundColor="LightGray"
                 Margin="10, 20, 10, 10"
-                HeightRequest="270"/>
+                HeightRequest="270"
+                />
     </StackLayout>
 </ContentPage>

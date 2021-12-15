@@ -32,12 +32,15 @@
                             </ViewCell.ContextActions>
                             
                             <ViewCell.View>
-                                <Grid>
+                                <Grid HorizontalOptions="Start">
 
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="200"/>
                                     </Grid.ColumnDefinitions>
+
+                                    <Image Grid.Column="0" 
+                                           Source="{Binding ProfileImage}"/>
 
                                     <Grid Grid.Column="1">
 
@@ -46,22 +49,21 @@
                                             <RowDefinition Height="20"/>
                                             <RowDefinition Height="20"/>
                                         </Grid.RowDefinitions>
+                                        <StackLayout>
+                                            <Label Grid.Row="0" 
+                                                   Grid.Column="1"
+                                                   Text="{Binding NickName}"
+                                                   HorizontalOptions="Start"/>
 
-                                        <Label Grid.Row="0" 
-                                           Grid.Column="1"
-                                           Text="{Binding NickName}"/>
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding Name}"
+                                                   HorizontalOptions="Start"/>
 
-                                        <Label Grid.Row="1" 
-                                           Grid.Column="1"
-                                           Text="{Binding Name}"/>
-
-                                        <Label Grid.Row="2" 
-                                           Grid.Column="1"
-                                           Text="{Binding Date}"/>
-
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding Date}"
+                                                   HorizontalOptions="Start"/>
+                                        </StackLayout>
                                     </Grid>
-                                    <Image Grid.Column="0"
-                                           Source="{Binding ProfileImage}"/>
                                 </Grid>
                             </ViewCell.View>
                         </ViewCell>
