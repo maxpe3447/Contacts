@@ -47,6 +47,13 @@ namespace Contacts.ViewModels
 
         }
 
+        private string noProfiles;
+        public string NoProfiles
+        {
+            get { return noProfiles; }
+            set { SetProperty(ref noProfiles, value); }
+        }
+
         private object selectedProfile;
         public object SelectedProfile
         {
@@ -78,6 +85,7 @@ namespace Contacts.ViewModels
             }
 
             ProfileList = new ObservableCollection<ProfileModel>(lst);
+            NoProfiles = ((profileList?.Count ?? 0) == 0) ? "No profiles added." : "";
         }
 
         #region -- Override -- 

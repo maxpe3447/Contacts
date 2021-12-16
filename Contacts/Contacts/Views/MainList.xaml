@@ -13,7 +13,8 @@
         <ToolbarItem Text="Setting"/>
     </ContentPage.ToolbarItems>
     
-    <AbsoluteLayout>
+    <AbsoluteLayout HorizontalOptions="Center"
+                    VerticalOptions="Center">
         <StackLayout>
             <ListView ItemsSource="{Binding ProfileList}"
                       HasUnevenRows="True"
@@ -85,5 +86,10 @@
                 WidthRequest="70"
                 CornerRadius="35"
                 Margin="0, 0, 30, 100"/>
+
+        <Label Text="{Binding NoProfiles}"
+               FontSize="Large"
+               AbsoluteLayout.LayoutBounds="120, 200"
+               VerticalOptions="Center"/>
     </AbsoluteLayout>
 </ContentPage>
