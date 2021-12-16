@@ -3,6 +3,7 @@ using Contacts.ViewModels;
 using Contacts.Views;
 using Prism;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -28,12 +29,14 @@ namespace Contacts
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
 
+            containerRegistry.RegisterPopupNavigationService();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignIn, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUp, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<MainList, MainListViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfile, AddEditProfileViewModel>();
-            containerRegistry.RegisterForNavigation<ModalImage, ModalImageViewModel>();
+            containerRegistry.RegisterForNavigation<ProfileImage, ProfileImageViewModel>();
         }
     }
 }

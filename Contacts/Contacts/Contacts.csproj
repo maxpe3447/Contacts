@@ -6,8 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.2.0.561" />
+    <PackageReference Include="Prism.Plugin.Popups" Version="8.0.76" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2244" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.0" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="8.1.97" />
   </ItemGroup>
@@ -19,7 +20,7 @@
     <EmbeddedResource Update="Views\MainList.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ModalImage.xaml">
+    <EmbeddedResource Update="Views\ProfileImage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SignIn.xaml">

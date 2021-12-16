@@ -21,6 +21,8 @@ namespace Contacts.Droid
             base.OnCreate(savedInstanceState);
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            global::Rg.Plugins.Popup.Popup.Init(this);
+            
             LoadApplication(new App(new AndroidInitializer()));
         }
 
