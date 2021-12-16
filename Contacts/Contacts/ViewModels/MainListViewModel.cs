@@ -57,9 +57,8 @@ namespace Contacts.ViewModels
 
                 NavigationParameters keyValues = new NavigationParameters();
                 keyValues.Add("byteImage", (SelectedProfile as ProfileModel).Image);
-                NavigationService.NavigateAsync("ModalImage", parameters: keyValues, useModalNavigation: true);
+                NavigationService.NavigateAsync("ProfileImage", parameters: keyValues, useModalNavigation: true);
             }
-
         }
 
         private void AddNewCollection()
