@@ -25,13 +25,6 @@ namespace Contacts.ViewModels
 
         }
 
-        private string toolBarButton;
-        public string ToolBarButton
-        {
-            get { return toolBarButton; }
-            set { SetProperty(ref toolBarButton, value); }
-        }
-
         private string name;
         public string Name
         {
@@ -75,7 +68,6 @@ namespace Contacts.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             Title = parameters.ContainsKey("Title") ? parameters.GetValue<string>("Title") : "Profile";
-            ToolBarButton = parameters.ContainsKey("ToolBarButton") ? parameters.GetValue<string>("ToolBarButton") : "NaN";
             if (!(ForAdd = parameters.ContainsKey("ForAdd")))
             {
                 profileModel = parameters.GetValue<ProfileModel>("ProfileModel");

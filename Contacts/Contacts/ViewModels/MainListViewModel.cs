@@ -117,8 +117,7 @@ namespace Contacts.ViewModels
             NavigationParameters keyValues = new NavigationParameters();
 
             keyValues.Add("Title", "AddProfile");
-            keyValues.Add("ToolBarButton", "A");
-            keyValues.Add("ForAdd", "A");
+            keyValues.Add("ForAdd", true);
             keyValues.Add("AuthorId", AuthorId);
 
             await NavigationService.NavigateAsync("AddEditProfile", keyValues);
@@ -132,7 +131,6 @@ namespace Contacts.ViewModels
             NavigationParameters keyValues = new NavigationParameters();
 
             keyValues.Add("Title", "EditProfile");
-            keyValues.Add("ToolBarButton", "E");
             keyValues.Add("ForEdd", "E");
             keyValues.Add("AuthorId", AuthorId);
             keyValues.Add("ProfileModel", currentProfile);

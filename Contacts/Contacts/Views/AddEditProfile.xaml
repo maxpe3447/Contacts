@@ -8,7 +8,7 @@
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding ToolBarButton}"
+        <ToolbarItem IconImageSource="diskette.png"
                      Command="{Binding AddOrUpdate}"/>
     </ContentPage.ToolbarItems>
 

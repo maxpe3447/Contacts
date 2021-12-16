@@ -8,9 +8,9 @@
              x:Name="mainListPage">
     
     <ContentPage.ToolbarItems >
-        <ToolbarItem Text="Log out" 
+        <ToolbarItem IconImageSource ="logout.png" 
                      Command="{Binding LogOutCommand}"/>
-        <ToolbarItem Text="Setting"/>
+        <ToolbarItem IconImageSource="setting.png"/>
     </ContentPage.ToolbarItems>
     
     <AbsoluteLayout HorizontalOptions="Center"
