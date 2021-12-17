@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -26,12 +27,15 @@ namespace Contacts.ViewModels
             AddProfileCommand = new Command(NavigateToAdd);
             EditProfileCommand = new Command(NavigateToEdit);
             DeleteProfileCommand = new Command(DeleteProfile);
+            SettingCommand = new Command(Setting);
 
             ProfileService = new ProfileService();
  
             AuthorId = -1;
         }
+        private int AuthorId { get; set; }
 
+        #region -- Properties --
         private ObservableCollection<ProfileModel> profileList;
         public ObservableCollection<ProfileModel> ProfileList
         {
@@ -67,11 +71,17 @@ namespace Contacts.ViewModels
                 NavigationService.NavigateAsync("ProfileImage", parameters: keyValues, useModalNavigation: true);
             }
         }
-
+        #endregion
         private void AddNewCollection()
         {
-            var lst = ProfileService.GetAll(AuthorId);
-            foreach (var profile in lst)
+            ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll(AuthorId));
+            SetProfilesImage(ProfileList);
+            
+            NoProfiles = ((profileList?.Count ?? 0) == 0) ? "No profiles added." : "";
+        }
+        private void SetProfilesImage(IEnumerable<ProfileModel> profiles)
+        {
+            foreach (var profile in profiles)
             {
                 if (profile.Image == null)
                     profile.ProfileImage = ImageSource.FromFile("human.png");
@@ -79,26 +89,26 @@ namespace Contacts.ViewModels
                 {
                     var stream = ImageService.BytesToStream(profile.Image);
 
-                    profile.ProfileImage = ImageSource.FromStream(()=>stream);
-
+                    profile.ProfileImage = ImageSource.FromStream(() => stream);
                 }
             }
-
-            ProfileList = new ObservableCollection<ProfileModel>(lst);
-            NoProfiles = ((profileList?.Count ?? 0) == 0) ? "No profiles added." : "";
         }
-
         #region -- Override -- 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             AuthorId = parameters.ContainsKey("AuthorId") ? parameters.GetValue<int>("AuthorId") : AuthorId;
-
-            AddNewCollection();
+            if (parameters.ContainsKey("ProfileList"))
+            {
+                ProfileList = parameters.GetValue<ObservableCollection<ProfileModel>>("ProfileList");
+                SetProfilesImage(ProfileList);
+            }
+            else
+            {
+                AddNewCollection();
+            }
         }
+
         #endregion
-
-
-
 
         #region -- Command --
 
@@ -106,6 +116,7 @@ namespace Contacts.ViewModels
         public ICommand AddProfileCommand { get; }
         public ICommand EditProfileCommand { get; }
         public ICommand DeleteProfileCommand { get; }
+        public ICommand SettingCommand { get; }
         private async void LogOut()
         {
             await NavigationService.GoBackAsync();
@@ -126,7 +137,7 @@ namespace Contacts.ViewModels
         private async void NavigateToEdit(object profileObj)
         {
 
-            var currentProfile =profileObj as ProfileModel;
+            var currentProfile = profileObj as ProfileModel;
 
             NavigationParameters keyValues = new NavigationParameters();
 
@@ -154,7 +165,15 @@ namespace Contacts.ViewModels
                 AddNewCollection();
             }
         }
+
+        private async void Setting()
+        {
+            NavigationParameters keyValues = new NavigationParameters();
+
+            keyValues.Add("ProfileList", ProfileList);
+
+            await NavigationService.NavigateAsync("Setting", keyValues);
+        }
         #endregion
-        private int AuthorId { get; set; }
     }
 }
