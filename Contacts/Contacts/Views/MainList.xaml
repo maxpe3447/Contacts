@@ -4,10 +4,11 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Contacts.Views.MainList"
+             x:Name="mainListPage"
              Title="{Binding Title}"
-             x:Name="mainListPage">
+             Background="{Binding BackgroundColor}">
     
-    <ContentPage.ToolbarItems >
+    <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource ="logout.png" 
                      Command="{Binding LogOutCommand}"/>
         <ToolbarItem IconImageSource="setting.png"
@@ -16,7 +17,7 @@
     
     <AbsoluteLayout HorizontalOptions="Center"
                     VerticalOptions="Center">
-        <StackLayout>
+        <StackLayout BackgroundColor="{Binding BackgroundColor}">
             <ListView ItemsSource="{Binding ProfileList}"
                       HasUnevenRows="True"
                       SelectedItem="{Binding SelectedProfile, Mode=TwoWay}">

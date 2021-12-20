@@ -2,6 +2,7 @@
 using Contacts.Model;
 using Contacts.Services.Image;
 using Contacts.Services.Profile;
+using Contacts.Services.Setting;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -18,7 +19,8 @@ namespace Contacts.ViewModels
     public class MainListViewModel : ViewModelBase
     {
         public IProfileService ProfileService {get;}
-        public MainListViewModel(INavigationService navigationService)
+        public MainListViewModel(INavigationService navigationService,
+                                 ISettingsManager settingsManager)
             : base(navigationService)
         {
             Title = "Main List";
@@ -32,8 +34,10 @@ namespace Contacts.ViewModels
             ProfileService = new ProfileService();
  
             AuthorId = -1;
+
+            this.settingsManager = settingsManager;
+            BackgroundColor = settingsManager.BackgroundColor;
         }
-        private int AuthorId { get; set; }
 
         #region -- Properties --
         private ObservableCollection<ProfileModel> profileList;
@@ -71,43 +75,12 @@ namespace Contacts.ViewModels
                 NavigationService.NavigateAsync("ProfileImage", parameters: keyValues, useModalNavigation: true);
             }
         }
-        #endregion
-        private void AddNewCollection()
+        private string backgroundColor;
+        public string BackgroundColor
         {
-            ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll(AuthorId));
-            SetProfilesImage(ProfileList);
-            
-            NoProfiles = ((profileList?.Count ?? 0) == 0) ? "No profiles added." : "";
+            get { return backgroundColor; }
+            set { SetProperty(ref backgroundColor, value); }
         }
-        private void SetProfilesImage(IEnumerable<ProfileModel> profiles)
-        {
-            foreach (var profile in profiles)
-            {
-                if (profile.Image == null)
-                    profile.ProfileImage = ImageSource.FromFile("human.png");
-                else
-                {
-                    var stream = ImageService.BytesToStream(profile.Image);
-
-                    profile.ProfileImage = ImageSource.FromStream(() => stream);
-                }
-            }
-        }
-        #region -- Override -- 
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            AuthorId = parameters.ContainsKey("AuthorId") ? parameters.GetValue<int>("AuthorId") : AuthorId;
-            if (parameters.ContainsKey("ProfileList"))
-            {
-                ProfileList = parameters.GetValue<ObservableCollection<ProfileModel>>("ProfileList");
-                SetProfilesImage(ProfileList);
-            }
-            else
-            {
-                AddNewCollection();
-            }
-        }
-
         #endregion
 
         #region -- Command --
@@ -173,6 +146,51 @@ namespace Contacts.ViewModels
             keyValues.Add("ProfileList", ProfileList);
 
             await NavigationService.NavigateAsync("Setting", keyValues);
+        }
+        #endregion
+
+        #region -- Override -- 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            AuthorId = parameters.ContainsKey("AuthorId") ? parameters.GetValue<int>("AuthorId") : AuthorId;
+            if (parameters.ContainsKey("ProfileList"))
+            {
+                ProfileList = parameters.GetValue<ObservableCollection<ProfileModel>>("ProfileList");
+                SetProfilesImage(ProfileList);
+            }
+            else
+            {
+                AddNewCollection();
+            }
+            BackgroundColor = settingsManager.BackgroundColor;
+        }
+
+        #endregion
+
+        #region -- Private --
+
+        private ISettingsManager settingsManager;
+        private int AuthorId { get; set; }
+        private void AddNewCollection()
+        {
+            ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll(AuthorId));
+            SetProfilesImage(ProfileList);
+
+            NoProfiles = ((profileList?.Count ?? 0) == 0) ? "No profiles added." : "";
+        }
+        private void SetProfilesImage(IEnumerable<ProfileModel> profiles)
+        {
+            foreach (var profile in profiles)
+            {
+                if (profile.Image == null)
+                    profile.ProfileImage = ImageSource.FromFile("human.png");
+                else
+                {
+                    var stream = ImageService.BytesToStream(profile.Image);
+
+                    profile.ProfileImage = ImageSource.FromStream(() => stream);
+                }
+            }
         }
         #endregion
     }

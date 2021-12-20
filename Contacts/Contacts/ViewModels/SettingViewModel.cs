@@ -1,4 +1,5 @@
 ﻿using Contacts.Model;
+using Contacts.Services.Setting;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -13,16 +14,21 @@ namespace Contacts.ViewModels
 {
     public class SettingViewModel : ViewModelBase
     {
-        public SettingViewModel(INavigationService navigationService)
+        public SettingViewModel(INavigationService navigationService,
+                                ISettingsManager settingsManager)
             :base(navigationService)
         {
             Title = "Setting";
+
             LangList = new List<string> {"English", "Українська" };
 
             SaveAndOutCommand = new Command(SaveAndOut);
-        }
 
-        private ObservableCollection<ProfileModel> profileModels;
+            this.settingsManager = settingsManager;
+
+            DarkThem = settingsManager.DarkThem;
+            LighThem = settingsManager.LightThem;
+        }
 
         #region -- Command --
         public ICommand SaveAndOutCommand { get; }
@@ -31,7 +37,7 @@ namespace Contacts.ViewModels
         {
             if (SortByName)
             {
-                profileModels = new ObservableCollection<ProfileModel>(profileModels.OrderBy(x => x.Name.ToLower()));
+                profileModels = new ObservableCollection<ProfileModel>(profileModels.OrderBy(x => x.Name));
             }
             else if(SortByNickName)
             {
@@ -42,7 +48,18 @@ namespace Contacts.ViewModels
                 profileModels = new ObservableCollection<ProfileModel>(profileModels.OrderBy(x => x.Date));
             }
 
+            if (DarkThem)
+            {
+                settingsManager.SetDarkThem();
+            }
+            else if (LighThem)
+            {
+                settingsManager.SetLightThem();
+            }
+
             NavigationParameters keyValues = new NavigationParameters();
+
+            
 
             keyValues.Add("ProfileList", profileModels);
 
@@ -79,7 +96,7 @@ namespace Contacts.ViewModels
             set 
             {
                 if (DarkThem) DarkThem = !DarkThem;
-                SetProperty(ref lighThem, value); 
+                SetProperty(ref lighThem, value);
             }
         }
 
@@ -90,7 +107,7 @@ namespace Contacts.ViewModels
             set 
             {
                 if (LighThem) LighThem = !LighThem;
-                SetProperty(ref darkThem, value); 
+                SetProperty(ref darkThem, value);               
             }
         }
 
@@ -107,6 +124,11 @@ namespace Contacts.ViewModels
             get => selectedLang;
             set => SetProperty(ref selectedLang, value);
         }
+
+        public string BackgroundColor
+        {
+            get { return settingsManager.BackgroundColor; }
+        }
         #endregion
 
         #region -- Override --
@@ -117,6 +139,12 @@ namespace Contacts.ViewModels
                 profileModels = parameters.GetValue<ObservableCollection<ProfileModel>>("ProfileList");
             }
         }
+        #endregion
+
+        #region -- Private --
+        private ObservableCollection<ProfileModel> profileModels;
+
+        private ISettingsManager settingsManager;
         #endregion
     }
 }

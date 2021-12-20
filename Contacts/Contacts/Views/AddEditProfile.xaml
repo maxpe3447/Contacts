@@ -5,14 +5,15 @@
              xmlns:behaviors="clr-namespace:Contacts.Services.Behavior;assembly=Contacts"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Contacts.Views.AddEditProfile"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{Binding BackgroundColor}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="diskette.png"
                      Command="{Binding AddOrUpdate}"/>
     </ContentPage.ToolbarItems>
 
-    <StackLayout>
+    <StackLayout Style="{StaticResource Key=stackLayout}">
         <ImageButton HeightRequest="250"
                      Source="{Binding Photo}"
                      Command="{Binding ImageSetCommand}"

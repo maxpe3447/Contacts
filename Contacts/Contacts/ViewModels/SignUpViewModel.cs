@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Contacts.Model;
+using Contacts.Services.Setting;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -13,16 +14,20 @@ namespace Contacts.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
-        public ICommand CreateAccountCommand { get; }
         Services.Sign.SignUpService signUp;
-        public SignUpViewModel(Prism.Navigation.INavigationService navigationService)
+        public SignUpViewModel(INavigationService navigationService,
+                               ISettingsManager settingsManager)
             :base(navigationService)
         {
             Title = "Users SignUp";
             CreateAccountCommand = new Command(AccountCreate);
 
             signUp = new Services.Sign.SignUpService();
+
+            this.settingsManager = settingsManager;
         }
+
+        #region -- Properties -- 
 
         private string login;
         public string Login
@@ -50,6 +55,17 @@ namespace Contacts.ViewModels
             get { return signUpIsEnable; }
             set { SetProperty(ref signUpIsEnable, value); }
         }
+
+        private string backgroundColor;
+        public string BackgroundColor
+        {
+            get { return settingsManager.BackgroundColor; }
+            set { SetProperty(ref backgroundColor, value); }
+        }
+        #endregion
+
+        #region -- Command --
+        public ICommand CreateAccountCommand { get; }
         public void AccountCreate()
         {
             if (!Valid())
@@ -74,7 +90,15 @@ namespace Contacts.ViewModels
             UserDialogs.Instance.Alert("This login is exist!");
 
         }
-        public bool Valid()
+
+        #endregion
+        
+        #region -- Private -- 
+
+        ISettingsManager settingsManager;
+        private void SignUpButtonUnlock() =>
+            SignUpIsEnable = !(string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(UserPassword) || string.IsNullOrEmpty(ConfirmUserPassword));
+        private bool Valid()
         {
             if (Login.Length < 4 || Login.Length > 16)
             {
@@ -99,9 +123,8 @@ namespace Contacts.ViewModels
            
             return true;
         }
-        private void SignUpButtonUnlock() =>
-            SignUpIsEnable = !(string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(UserPassword) || string.IsNullOrEmpty(ConfirmUserPassword));
 
+        #endregion
     }
 }
    

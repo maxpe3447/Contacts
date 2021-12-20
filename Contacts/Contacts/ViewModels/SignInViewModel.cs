@@ -1,4 +1,5 @@
 ﻿using Contacts.Services.Repository;
+using Contacts.Services.Setting;
 using Contacts.Services.Sign;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -14,16 +15,18 @@ namespace Contacts.ViewModels
 {
     public class SignInViewModel : ViewModelBase
     {
-        public ICommand NavigateToCommand { get; }
-        public ICommand SignInClick { get; }
-        public SignInViewModel(INavigationService navigationService)
+        public SignInViewModel(INavigationService navigationService,
+                               ISettingsManager settingsManager)
             : base(navigationService)
         {
             Title = "Users SignIn";
 
             NavigateToCommand = new Command(NavigateToSugnUpPage);
             SignInClick = new Command(SignInReset);
+            this.settingsManager = settingsManager;
+            BackgroundColor = settingsManager.BackgroundColor;
         }
+        #region -- Properties --
 
         private string login;
         public string Login
@@ -39,13 +42,25 @@ namespace Contacts.ViewModels
             set { SetProperty(ref userPassword, value); }
         }
 
+        private string backgroundColor;
+        public string BackgroundColor
+        {
+            get { return backgroundColor; }
+            set { SetProperty(ref backgroundColor, value); }
+        }
+        #endregion
+
+        #region -- Command --
+        public ICommand NavigateToCommand { get; }
+        public ICommand SignInClick { get; }
+
         public async void NavigateToSugnUpPage()
         {
             //File.Delete(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "contactbook.db3"));
             await NavigationService.NavigateAsync("SignUp");
         }
 
-        public async void SignInReset()
+        private async void SignInReset()
         {
             SignInService signIn = new SignInService();
             var userModel = new Model.UserModel { Login = Login, Password = userPassword };
@@ -69,7 +84,9 @@ namespace Contacts.ViewModels
                 UserPassword = string.Empty;
             }
         }
+        #endregion
 
+        #region -- Override --
         public override void OnNavigatedTo(INavigationParameters parameters) 
         {
             if (parameters.ContainsKey("Login"))
@@ -77,7 +94,15 @@ namespace Contacts.ViewModels
                 Login = parameters.GetValue<string>("Login");
                 UserPassword = parameters.GetValue<string>("Password");
             }
-            
+
+            BackgroundColor = settingsManager.BackgroundColor;
         }
+        #endregion
+
+        #region -- Private -- 
+
+        ISettingsManager settingsManager;
+
+        #endregion
     }
 }

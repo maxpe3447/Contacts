@@ -12,19 +12,22 @@ using Acr.UserDialogs;
 using Xamarin.Essentials;
 using System.IO;
 using Contacts.Services.Image;
+using Contacts.Services.Setting;
 
 namespace Contacts.ViewModels
 {
     public class AddEditProfileViewModel : ViewModelBase
     {
-        public AddEditProfileViewModel(INavigationService navigationService)
+        public AddEditProfileViewModel(INavigationService navigationService,
+                                       ISettingsManager settingsManager)
             : base(navigationService)
         {
             AddOrUpdate = new Command(AddUpdate);
             ImageSetCommand = new Command(ImageSet);
 
+            this.settingsManager = settingsManager;
         }
-
+        #region -- Properties --
         private string name;
         public string Name
         {
@@ -61,8 +64,11 @@ namespace Contacts.ViewModels
             get { return photo; }
             set { SetProperty(ref photo, value); }
         }
-
-        private ProfileModel profileModel;
+        public string BackgroundColor
+        {
+            get { return settingsManager.BackgroundColor; }
+        }
+        #endregion
 
         #region -- Override --
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -141,6 +147,14 @@ namespace Contacts.ViewModels
                 Photo = ImageSource.FromFile(Path);
             }
         }
+        #endregion
+
+        #region -- Private --
+
+        ISettingsManager settingsManager;
+
+        private ProfileModel profileModel;
+
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 using Contacts.Services.Repository;
+using Contacts.Services.Setting;
 using Contacts.ViewModels;
 using Contacts.Views;
 using Prism;
@@ -27,8 +28,11 @@ namespace Contacts
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-            containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
 
+            //Services
+            containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
+
+            //Navigation
             containerRegistry.RegisterPopupNavigationService();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();

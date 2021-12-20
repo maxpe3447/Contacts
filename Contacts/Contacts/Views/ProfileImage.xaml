@@ -10,7 +10,8 @@
                 BackgroundColor="White">
         
         <ImageButton Source="{Binding ImageProfile}"
-           Command="{Binding GoBackCommand}"/>
+                     Command="{Binding GoBackCommand}"
+                     BackgroundColor="Transparent"/>
         
     </StackLayout>
 </popup:PopupPage>
