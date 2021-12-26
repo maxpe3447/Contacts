@@ -1,5 +1,7 @@
+using Contacts.Services.Profile;
 using Contacts.Services.Repository;
 using Contacts.Services.Setting;
+using Contacts.Services.Sign;
 using Contacts.ViewModels;
 using Contacts.Views;
 using Prism;
@@ -31,6 +33,9 @@ namespace Contacts
 
             //Services
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
+            containerRegistry.RegisterInstance<IProfileService>(Container.Resolve<ProfileService>());
+            containerRegistry.RegisterInstance<ISignInService>(Container.Resolve<SignInService>());
+            containerRegistry.RegisterInstance<ISignUpService>(Container.Resolve<SignUpService>());
 
             //Navigation
             containerRegistry.RegisterPopupNavigationService();

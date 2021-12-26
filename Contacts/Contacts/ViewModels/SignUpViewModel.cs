@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Contacts.Model;
 using Contacts.Services.Setting;
+using Contacts.Services.Sign;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -14,15 +15,14 @@ namespace Contacts.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
-        Services.Sign.SignUpService signUp;
         public SignUpViewModel(INavigationService navigationService,
-                               ISettingsManager settingsManager)
+                               ISettingsManager settingsManager,
+                               ISignUpService signUpService)
             :base(navigationService)
         {
             CreateAccountCommand = new Command(AccountCreate);
 
-            signUp = new Services.Sign.SignUpService();
-
+            this.signUpService = signUpService;
             this.settingsManager = settingsManager;
 
             SetLanguage();
@@ -101,9 +101,9 @@ namespace Contacts.ViewModels
                 return;
             }
             var user = new UserModel { Login = Login, Password = UserPassword };
-            if (!signUp.IsExist(user))
+            if (!signUpService.IsExist(user))
             {
-                user.Id = signUp.InsertUser(user).Result;
+                user.Id = signUpService.InsertUser(user).Result;
 
                 NavigationParameters keyValues = new NavigationParameters();
 
@@ -124,6 +124,7 @@ namespace Contacts.ViewModels
         #region -- Private -- 
 
         private ISettingsManager settingsManager;
+        private ISignUpService signUpService;
         private string HeaderAlertInvalidLogin { get; set; }
         private string HeaderAlertInvalidPassword { get; set; }
         private string TextAlertLemitLogin { get; set; }

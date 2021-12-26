@@ -16,12 +16,16 @@ namespace Contacts.ViewModels
     public class SignInViewModel : ViewModelBase
     {
         public SignInViewModel(INavigationService navigationService,
-                               ISettingsManager settingsManager)
+                               ISettingsManager settingsManager,
+                               ISignInService signInService)
             : base(navigationService)
         {
             NavigateToCommand = new Command(NavigateToSugnUpPage);
             SignInClick = new Command(SignInReset);
+
             this.settingsManager = settingsManager;
+            this.signInService = signInService;
+
             BackgroundColor = settingsManager.BackgroundColor;
 
             SetLanguage();
@@ -90,11 +94,11 @@ namespace Contacts.ViewModels
 
         private async void SignInReset()
         {
-            SignInService signIn = new SignInService();
+            //SignInService signIn = new SignInService();
             var userModel = new Model.UserModel { Login = Login, Password = userPassword };
-            if (signIn.IsExist(userModel))
+            if (signInService.IsExist(userModel))
             {
-                userModel.Id = signIn.GetId(userModel);
+                userModel.Id = signInService.GetId(userModel);
 
                 NavigationParameters keyValues = new NavigationParameters();
 
@@ -131,6 +135,8 @@ namespace Contacts.ViewModels
         #region -- Private -- 
         private string TextMsg { get; set; }
         private string HederMsg { get; set; }
+
+        private ISignInService signInService;
         private ISettingsManager settingsManager;
         private void SetLanguage()
         {

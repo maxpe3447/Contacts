@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Contacts.Services.Sign
 {
-    class SignInService : ISign
+    class SignInService : ISignInService
     {
         private Repository.Repository repository;
         public SignInService()

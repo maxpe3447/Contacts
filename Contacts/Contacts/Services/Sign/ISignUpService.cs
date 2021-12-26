@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Contacts.Services.Sign
 {
-    interface ISign
+    public interface ISignUpService 
     {
         bool IsExist(UserModel userModel);
+        Task<int> InsertUser(UserModel userModel);
+        //public void Delete()
     }
 }

@@ -20,7 +20,8 @@ namespace Contacts.ViewModels
     {
         public IProfileService ProfileService {get;}
         public MainListViewModel(INavigationService navigationService,
-                                 ISettingsManager settingsManager)
+                                 ISettingsManager settingsManager,
+                                 IProfileService profileService)
             : base(navigationService)
         {
             
@@ -30,10 +31,9 @@ namespace Contacts.ViewModels
             DeleteProfileCommand = new Command(DeleteProfile);
             SettingCommand = new Command(Setting);
 
-            ProfileService = new ProfileService();
- 
             AuthorId = -1;
 
+            ProfileService = profileService;
             this.settingsManager = settingsManager;
         }
 

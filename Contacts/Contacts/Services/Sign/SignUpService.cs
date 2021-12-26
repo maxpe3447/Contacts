@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contacts.Services.Sign
 {
-    class SignUpService : ISign
+    class SignUpService : ISignUpService
     {
         private Repository.Repository repository;
         public SignUpService()
