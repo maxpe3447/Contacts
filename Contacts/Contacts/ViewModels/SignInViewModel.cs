@@ -19,12 +19,12 @@ namespace Contacts.ViewModels
                                ISettingsManager settingsManager)
             : base(navigationService)
         {
-            Title = "Users SignIn";
-
             NavigateToCommand = new Command(NavigateToSugnUpPage);
             SignInClick = new Command(SignInReset);
             this.settingsManager = settingsManager;
             BackgroundColor = settingsManager.BackgroundColor;
+
+            SetLanguage();
         }
         #region -- Properties --
 
@@ -48,6 +48,34 @@ namespace Contacts.ViewModels
             get { return backgroundColor; }
             set { SetProperty(ref backgroundColor, value); }
         }
+
+        private string loginPlaceholder;
+        public string LoginPlaceholder
+        {
+            get { return loginPlaceholder; }
+            set { SetProperty(ref loginPlaceholder, value); }
+        }
+
+        private string passwordPlaceholder;
+        public string PasswordPlaceholder
+        {
+            get { return passwordPlaceholder; }
+            set { SetProperty(ref passwordPlaceholder, value); }
+        }
+
+        private string bSignIn;
+        public string BSignIn
+        {
+            get { return bSignIn; }
+            set { SetProperty(ref bSignIn, value); }
+        }
+        private string lSignUp;
+        public string LSignUp
+        {
+            get { return lSignUp; }
+            set { SetProperty(ref lSignUp, value); }
+        }
+        
         #endregion
 
         #region -- Command --
@@ -76,7 +104,7 @@ namespace Contacts.ViewModels
                 return;
             }
 
-            bool result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Invalid login or password!", "Alert", "Ok", " ");
+            bool result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync(TextMsg, HederMsg, "Ok", " ");
 
             if (result)
             {
@@ -96,13 +124,38 @@ namespace Contacts.ViewModels
             }
 
             BackgroundColor = settingsManager.BackgroundColor;
+            SetLanguage();
         }
         #endregion
 
         #region -- Private -- 
-
-        ISettingsManager settingsManager;
-
+        private string TextMsg { get; set; }
+        private string HederMsg { get; set; }
+        private ISettingsManager settingsManager;
+        private void SetLanguage()
+        {
+            switch (settingsManager.Language)
+            {
+                case "English":
+                    LoginPlaceholder = LanguageEn.PlaceholderLogin;
+                    PasswordPlaceholder = LanguageEn.PlaceholderPassword;
+                    Title = LanguageEn.HederSignIn;
+                    BSignIn = LanguageEn.ButtonSignIn;
+                    LSignUp = LanguageEn.RefSignUp;
+                    TextMsg = LanguageEn.AlertTextInvalidPOL;
+                    HederMsg = LanguageEn.AlertHederInvalidPOL;
+                    break;
+                case "Українська":
+                    LoginPlaceholder = LanguageUa.PlaceholderLogin;
+                    PasswordPlaceholder = LanguageUa.PlaceholderPassword;
+                    Title = LanguageUa.HederSignIn;
+                    BSignIn = LanguageUa.ButtonSignIn;
+                    LSignUp = LanguageUa.RefSignUp;
+                    TextMsg = LanguageUa.AlertTextInvalidPOL;
+                    HederMsg = LanguageUa.AlertHederInvalidPOL;
+                    break;
+            }
+        }
         #endregion
     }
 }

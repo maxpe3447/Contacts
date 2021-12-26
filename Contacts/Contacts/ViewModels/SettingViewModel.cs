@@ -18,8 +18,6 @@ namespace Contacts.ViewModels
                                 ISettingsManager settingsManager)
             :base(navigationService)
         {
-            Title = "Setting";
-
             LangList = new List<string> {"English", "Українська" };
 
             SaveAndOutCommand = new Command(SaveAndOut);
@@ -28,6 +26,8 @@ namespace Contacts.ViewModels
 
             DarkThem = settingsManager.DarkThem;
             LighThem = settingsManager.LightThem;
+
+            SetLanguage();
         }
 
         #region -- Command --
@@ -57,10 +57,9 @@ namespace Contacts.ViewModels
                 settingsManager.SetLightThem();
             }
 
+            settingsManager.Language = SelectedItem;
+
             NavigationParameters keyValues = new NavigationParameters();
-
-            
-
             keyValues.Add("ProfileList", profileModels);
 
             NavigationService.GoBackAsync(keyValues);
@@ -68,6 +67,14 @@ namespace Contacts.ViewModels
         #endregion
 
         #region -- Properties --
+
+        private string selectedItem;
+        public string SelectedItem
+        {
+            get { return selectedItem; }
+            set { SetProperty(ref selectedItem, value); }
+        }
+
         private bool sortByName;
         public bool SortByName
         {
@@ -118,11 +125,62 @@ namespace Contacts.ViewModels
             set => SetProperty(ref langList, value);
         }
 
-        private string selectedLang;
-        public string SelectedLang
+        private string lSort;
+        public string LSort
         {
-            get => selectedLang;
-            set => SetProperty(ref selectedLang, value);
+            get => lSort;
+            set => SetProperty(ref lSort, value);
+        }
+
+        private string lbyName;
+        public string LbyName
+        {
+            get => lbyName;
+            set => SetProperty(ref lbyName, value);
+        }
+
+        private string lByNickName;
+        public string LByNickName
+        {
+            get => lByNickName;
+            set => SetProperty(ref lByNickName, value);
+        }
+
+        private string lByDate;
+        public string LByDate
+        {
+            get => lByDate;
+            set => SetProperty(ref lByDate, value);
+        }
+
+        private string lThem;
+        public string LThem
+        {
+            get => lThem; 
+            set => SetProperty(ref lThem, value);
+        }
+
+        private string lLight;
+        public string LLight
+        {
+            get => lLight; 
+            set => SetProperty(ref lLight, value);
+        }
+
+        private string lDark;
+        public string LDark
+        {
+            get => lDark;
+            set => SetProperty(ref lDark, value);
+            
+        }
+
+        private string lLanguage;
+        public string LLanguage
+        {
+            get => lLanguage;
+            set => SetProperty(ref lLanguage, value);
+
         }
 
         public string BackgroundColor
@@ -138,6 +196,7 @@ namespace Contacts.ViewModels
             {
                 profileModels = parameters.GetValue<ObservableCollection<ProfileModel>>("ProfileList");
             }
+            SelectedItem = settingsManager.Language;
         }
         #endregion
 
@@ -145,6 +204,35 @@ namespace Contacts.ViewModels
         private ObservableCollection<ProfileModel> profileModels;
 
         private ISettingsManager settingsManager;
+        private void SetLanguage()
+        {
+            switch (settingsManager.Language)
+            {
+                case "English":
+                    Title = LanguageEn.HederMainList;
+                    LSort = LanguageEn.LabelSort;
+                    LByDate = LanguageEn.LabelByDate;
+                    LByNickName = LanguageEn.LabelByNickName;
+                    LbyName = LanguageEn.LabelByName;
+                    LThem = LanguageEn.LabelThem;
+                    LLight = LanguageEn.LabelLight;
+                    LDark = LanguageEn.LabelDark;
+                    LLanguage = LanguageEn.LabelLanguage;
+                    break;
+                case "Українська":
+                    Title = LanguageUa.HederMainList;
+                    LSort = LanguageUa.LabelSort;
+                    LByDate = LanguageUa.LabelByDate;
+                    LByNickName = LanguageUa.LabelByNickName;
+                    LbyName = LanguageUa.LabelByName;
+                    LThem = LanguageUa.LabelThem;
+                    LLight = LanguageUa.LabelLight;
+                    LDark = LanguageUa.LabelDark;
+                    LLanguage = LanguageUa.LabelLanguage;
+
+                    break;
+            }
+        }
         #endregion
     }
 }

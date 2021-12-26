@@ -26,6 +26,8 @@ namespace Contacts.ViewModels
             ImageSetCommand = new Command(ImageSet);
 
             this.settingsManager = settingsManager;
+
+            SetLanguage();
         }
         #region -- Properties --
         private string name;
@@ -56,6 +58,26 @@ namespace Contacts.ViewModels
             set => forAdd = value;
         }
 
+        private string nickPlaceholder;
+        public string NickPlaceholder
+        {
+            get { return nickPlaceholder; }
+            set { SetProperty(ref nickPlaceholder, value); }
+        }
+
+        private string namePlaceholder;
+        public string NamePlaceholder
+        {
+            get { return namePlaceholder; }
+            set { SetProperty(ref namePlaceholder, value); }
+        }
+        private string descriptionPlaceholder;
+        public string DescriptionPlaceholder
+        {
+            get { return descriptionPlaceholder; }
+            set { SetProperty(ref descriptionPlaceholder, value); }
+        }
+
         public string Path { get; set;}
 
         private ImageSource photo;
@@ -73,7 +95,7 @@ namespace Contacts.ViewModels
         #region -- Override --
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            Title = parameters.ContainsKey("Title") ? parameters.GetValue<string>("Title") : "Profile";
+
             if (!(ForAdd = parameters.ContainsKey("ForAdd")))
             {
                 profileModel = parameters.GetValue<ProfileModel>("ProfileModel");
@@ -99,6 +121,8 @@ namespace Contacts.ViewModels
                 
 
             }
+
+            SetTittle();
         }
         #endregion
 
@@ -129,8 +153,8 @@ namespace Contacts.ViewModels
         }
         public async void ImageSet()
         {
-            var actionResult = await UserDialogs.Instance.ActionSheetAsync("Add photo", "Cancel", null, null, "Take a photo", "Gallery");
-            if (actionResult == "Take a photo")
+            var actionResult = await UserDialogs.Instance.ActionSheetAsync(TextAddPhoto, TextCancel, null, null, TextTakeAPhoto, TextGallery);
+            if (actionResult == TextTakeAPhoto)
             {
                 var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions
                 {
@@ -140,7 +164,7 @@ namespace Contacts.ViewModels
                 Photo = ImageSource.FromFile(Path);
 
             }
-            else if (actionResult == "Gallery")
+            else if (actionResult == TextGallery)
             {
                 var photo = await MediaPicker.PickPhotoAsync();
                 Path = photo.FullPath;
@@ -151,10 +175,63 @@ namespace Contacts.ViewModels
 
         #region -- Private --
 
+        private string TextAddPhoto { get; set; }
+        private string TextCancel { get; set; }
+        private string TextTakeAPhoto { get; set; }
+        private string TextGallery { get; set; }
+
         ISettingsManager settingsManager;
 
         private ProfileModel profileModel;
 
+        private void SetLanguage()
+        {
+            switch (settingsManager.Language)
+            {
+                case "English":
+                    
+                    NickPlaceholder = LanguageEn.PlaceholderNickName;
+                    NamePlaceholder = LanguageEn.PlaceholderName;
+                    DescriptionPlaceholder = LanguageEn.PlaceholderDescription;
+                    TextAddPhoto = LanguageEn.ActionSheetTextAddPhoto;
+                    TextCancel = LanguageEn.TextCancel;
+                    TextTakeAPhoto = LanguageEn.TextTakeAPhoto;
+                    TextGallery = LanguageEn.TextGallery;
+                   
+                    break;
+                case "Українська":
+                    
+                    NickPlaceholder = LanguageUa.PlaceholderNickName;
+                    NamePlaceholder = LanguageUa.PlaceholderName;
+                    DescriptionPlaceholder = LanguageUa.PlaceholderDescription;
+                    TextAddPhoto = LanguageUa.ActionSheetTextAddPhoto;
+                    TextCancel = LanguageUa.TextCancel;
+                    TextTakeAPhoto = LanguageUa.TextTakeAPhoto;
+                    TextGallery = LanguageUa.TextGallery;
+
+                    break;
+            }
+        }
+
+        private void SetTittle()
+        {
+            switch (settingsManager.Language)
+            {
+                case "English":
+                    if (ForAdd)
+                        Title = LanguageEn.HederAddProfile;
+                    else
+                        Title = LanguageEn.HederEditProfile;
+                    break;
+
+                case "Українська":
+                    if (ForAdd)
+                        Title = LanguageUa.HederAddProfile;
+                    else
+                        Title = LanguageUa.HederEditProfile;
+                    break;
+            }
+        }
         #endregion
     }
 }

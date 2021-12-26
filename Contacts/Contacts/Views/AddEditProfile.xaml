@@ -13,21 +13,21 @@
                      Command="{Binding AddOrUpdate}"/>
     </ContentPage.ToolbarItems>
 
-    <StackLayout Style="{StaticResource Key=stackLayout}">
+    <StackLayout >
         <ImageButton HeightRequest="250"
                      Source="{Binding Photo}"
                      Command="{Binding ImageSetCommand}"
                      BackgroundColor="Transparent"/>
-        
-        <Entry Placeholder="NickName"
+
+        <Entry Placeholder="{Binding NickPlaceholder}"
                Text="{Binding NickName}"
                Margin="10, 10"/>
-        
-        <Entry Placeholder="Name"
+
+        <Entry Placeholder="{Binding NamePlaceholder}"
                Text="{Binding Name}"
                Margin="10, 10"/>
 
-        <Editor Placeholder="Description"
+        <Editor Placeholder="{Binding DescriptionPlaceholder}"
                 Text="{Binding Description}"
                 BackgroundColor="LightGray"
                 Margin="10, 20, 10, 10"

@@ -8,11 +8,11 @@
              BackgroundColor="{Binding BackgroundColor}">
 
     <StackLayout>
-        <Entry x:Name="userLogin" Margin="40, 200, 40, 5" Placeholder="Login" Text="{Binding Login}" FontSize="Medium"/>
-        <Entry x:Name="userPassword" Margin="40, 5, 40, 5" Placeholder="Password" Text ="{Binding UserPassword}" FontSize="Medium" IsPassword = "True"/>
-        <Entry x:Name="confirmUserPassword" Margin="40, 5, 40, 5" Placeholder="Confirm Password" Text="{Binding ConfirmUserPassword}" FontSize="Medium" IsPassword = "True"/>
+        <Entry Margin="40, 200, 40, 5" Placeholder="{Binding LoginPlaceholder}" Text="{Binding Login}" FontSize="Medium"/>
+        <Entry Margin="40, 5, 40, 5" Placeholder="{Binding PasswordPlaceholder}" Text ="{Binding UserPassword}" FontSize="Medium" IsPassword = "True"/>
+        <Entry Margin="40, 5, 40, 5" Placeholder="{Binding ConfirmPasswordPlaceholder}" Text="{Binding ConfirmUserPassword}" FontSize="Medium" IsPassword = "True"/>
 
-        <Button x:Name="signUp" Margin="40, 150, 40, 0" Text="SIGN UP" HeightRequest="70" FontSize="Medium" IsEnabled="{Binding SignUpIsEnable}" Command="{Binding CreateAccountCommand}" />
+        <Button x:Name="signUp" Margin="40, 150, 40, 0" Text="{Binding BSignUp}" HeightRequest="70" FontSize="Medium" IsEnabled="{Binding SignUpIsEnable}" Command="{Binding CreateAccountCommand}" />
     </StackLayout>
 
 </ContentPage>

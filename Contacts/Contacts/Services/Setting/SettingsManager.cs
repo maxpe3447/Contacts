@@ -21,7 +21,11 @@ namespace Contacts.Services.Setting
             get => Preferences.Get(nameof(LightThem), true);
             set => Preferences.Set(nameof(LightThem), value); 
         }
-
+        public string Language
+        {
+            get => Preferences.Get(nameof(Language), "English");
+            set => Preferences.Set(nameof(Language), value);
+        }
         public void SetDarkThem()
         {
             DarkThem = true;

@@ -10,6 +10,7 @@ namespace Contacts.Services.Setting
         string BackgroundColor { get; set; }
         bool DarkThem { get; set; }
         bool LightThem { get; set; }
+        string Language { get; set; }
 
         void SetLightThem();
         void SetDarkThem();

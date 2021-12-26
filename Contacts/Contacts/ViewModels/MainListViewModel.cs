@@ -23,8 +23,7 @@ namespace Contacts.ViewModels
                                  ISettingsManager settingsManager)
             : base(navigationService)
         {
-            Title = "Main List";
-
+            
             LogOutCommand = new Command(LogOut);
             AddProfileCommand = new Command(NavigateToAdd);
             EditProfileCommand = new Command(NavigateToEdit);
@@ -36,7 +35,6 @@ namespace Contacts.ViewModels
             AuthorId = -1;
 
             this.settingsManager = settingsManager;
-            BackgroundColor = settingsManager.BackgroundColor;
         }
 
         #region -- Properties --
@@ -125,9 +123,9 @@ namespace Contacts.ViewModels
         {
             var confirmConfig = new ConfirmConfig()
             {
-                Message = "Do you want to delete this profile?",
-                OkText = "Yes",
-                CancelText = "Cancel"
+                Message = TextMsg,
+                OkText = TextYes,
+                CancelText = TextCancel
             };
 
             var confirm = await UserDialogs.Instance.ConfirmAsync(confirmConfig);
@@ -163,20 +161,29 @@ namespace Contacts.ViewModels
                 AddNewCollection();
             }
             BackgroundColor = settingsManager.BackgroundColor;
+            SetLanguage();
         }
-
+        public override void Initialize(INavigationParameters parameters)
+        {
+            BackgroundColor = settingsManager.BackgroundColor;
+            SetLanguage();
+        }
         #endregion
 
         #region -- Private --
 
         private ISettingsManager settingsManager;
         private int AuthorId { get; set; }
+        private string LNoProfiles { get; set; }
+        private string TextMsg { get; set; }
+        private string TextYes { get; set; }
+        private string TextCancel { get; set; }
         private void AddNewCollection()
         {
             ProfileList = new ObservableCollection<ProfileModel>(ProfileService.GetAll(AuthorId));
             SetProfilesImage(ProfileList);
 
-            NoProfiles = ((profileList?.Count ?? 0) == 0) ? "No profiles added." : "";
+            NoProfiles = ((profileList?.Count ?? 0) == 0) ? LNoProfiles : "";
         }
         private void SetProfilesImage(IEnumerable<ProfileModel> profiles)
         {
@@ -190,6 +197,27 @@ namespace Contacts.ViewModels
 
                     profile.ProfileImage = ImageSource.FromStream(() => stream);
                 }
+            }
+        }
+        private void SetLanguage()
+        {
+            switch (settingsManager.Language)
+            {
+                case "English":
+                    Title = LanguageEn.HederMainList;
+                    LNoProfiles = LanguageEn.LabelNoProfiles;
+                    TextMsg = LanguageEn.AlertTextDeleteProfiles;
+                    TextYes = LanguageEn.TextYes;
+                    TextCancel = LanguageEn.TextCancel;
+                    break;
+                case "Українська":
+                    Title = LanguageUa.HederMainList;
+                    LNoProfiles = LanguageUa.LabelNoProfiles;
+                    TextMsg = LanguageUa.AlertTextDeleteProfiles;
+                    TextYes = LanguageUa.TextYes;
+                    TextCancel = LanguageUa.TextCancel;
+
+                    break;
             }
         }
         #endregion

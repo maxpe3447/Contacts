@@ -13,20 +13,20 @@
     </ContentPage.ToolbarItems>
     
     <StackLayout>
-        <Label Text="Sort"
+        <Label Text="{Binding LSort}"
                FontSize="25" 
                Margin="10, 10"/>
-        
-        <RadioButton Content="By name"
+
+        <RadioButton Content="{Binding LbyName}"
                      IsChecked="{Binding SortByName}"/>
-        
-        <RadioButton Content="By NickName"
+
+        <RadioButton Content="{Binding LByNickName}"
                      IsChecked="{Binding SortByNickName}"/>
-        
-        <RadioButton Content="By date"
+
+        <RadioButton Content="{Binding LByDate}"
                      IsChecked="{Binding SortByDate}"/>
 
-        <Label Text="Them"
+        <Label Text="{Binding LThem}"
                FontSize="25" 
                Margin="10, 10"/>
 
@@ -41,24 +41,24 @@
             <CheckBox Grid.Column="0"
                       IsChecked="{Binding LighThem}"/>
             <Label Grid.Column="1"
-                   Text="Light"
+                   Text="{Binding LLight}"
                    FontSize="20"/>
 
             <CheckBox Grid.Column="2"
                       IsChecked="{Binding DarkThem}"/>
             <Label Grid.Column="3"
-                   Text="Dark"
+                   Text="{Binding LDark}"
                    FontSize="20"/>
         </Grid>
 
-        <Label Text="Language"
+        <Label Text="{Binding LLanguage}"
                FontSize="25" 
                Margin="10, 10"/>
         <Picker ItemsSource="{Binding LangList}"
-                SelectedIndex="{Binding SelectedLang}"
-                Title="Choice language..."
+                SelectedItem="{Binding SelectedItem}"
                 FontSize="20"
                 WidthRequest="5"
                 Margin="10, 0, 100, 0"/>
+        
     </StackLayout>
 </ContentPage>
